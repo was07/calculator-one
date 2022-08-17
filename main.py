@@ -1,5 +1,4 @@
 import os
-from turtle import color
 import colorama
 
 
