@@ -62,14 +62,14 @@ class Calculator:
             self.reses = self.reses[-11:]
     
     def _replace_operators(self, op):
-        return {'+': '+', '-': '-', '*': '×', '/': '/', '^': '^'}[op]
+        return {'+': '+', '-': '-', '*': '×', '/': '/'}[op]
     
     def calculate(self, raw_inp: str) -> int:
         if not raw_inp: return 1
         parts = []
         temp = ""
         for c in raw_inp:
-            if c in ('+', '-', '*', '/', '^'):
+            if c in ('+', '-', '*', '/'):
                 if temp: parts.append(temp.strip())
                 else: return 1
                 parts.append(self._replace_operators(c))
