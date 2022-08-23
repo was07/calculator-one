@@ -1,19 +1,23 @@
 import os
-import colorama
+import colorama as clr
 
 
-class Calc:
+
+class SavedCalculation:
     def __init__(self, inp, res):
         self.inp = str(inp).strip()
         self.res = str(res).strip()
     
     def as_text(self):
-        return f"{self.inp.ljust(25)} {colorama.Fore.LIGHTBLACK_EX}= {colorama.Fore.CYAN}{self.res.rjust(9)}{colorama.Style.RESET_ALL}"
+        return f"{clr.Fore.LIGHTBLACK_EX}{self.inp.ljust(25)} {clr.Fore.LIGHTBLACK_EX}= {clr.Style.RESET_ALL}{self.res.rjust(9)}{clr.Style.RESET_ALL}"
+    
+    def as_text_special(self):
+        return f"{self.inp.ljust(25)} {clr.Fore.LIGHTBLACK_EX}= {clr.Fore.CYAN}{self.res.rjust(9)}{clr.Style.RESET_ALL}"
 
 
 class Calculator:
     def __init__(self):
-        self.reses: list[Calc] = []
+        self.reses: list[SavedCalculation] = []
         self.mainloop()
     
     def mainloop(self):
@@ -34,17 +38,17 @@ class Calculator:
                     ['│ ' + c.as_text() + ' │' for c in self.reses[:-1]]
                 ))
             print('├' + sep + '┤')
-            print('│ ' + self.reses[-1].as_text() + ' │')
+            print('│ ' + self.reses[-1].as_text_special() + ' │')
         else:
             print('├' + sep + '┤')
 
         print('╰' + sep + '╯')
         try:
-            inp = input( colorama.Fore.CYAN + ': ' + colorama.Fore.BLUE)
+            inp = input( clr.Fore.CYAN + ': ' + clr.Fore.BLUE)
         except KeyboardInterrupt:
-            print(colorama.Fore.RED + "Quitted" + colorama.Style.RESET_ALL)
+            print(clr.Fore.RED + "Quitted" + clr.Style.RESET_ALL)
             exit()
-        print(colorama.Style.RESET_ALL)
+        print(clr.Style.RESET_ALL)
 
         if inp.strip() == 'q':
             exit()
@@ -56,7 +60,7 @@ class Calculator:
     
     def add(self, inp, res):
         self.reses.append(
-            Calc(inp, res)
+            SavedCalculation(inp, res)
         )
         if len(self.reses) > 11:
             self.reses = self.reses[-11:]
@@ -91,12 +95,12 @@ class Calculator:
 
 if __name__ == '__main__':
     os.system('cls')
-    print(f"""    {colorama.Fore.RED}Controls{colorama.Style.RESET_ALL}
+    print(f"""    {clr.Fore.RED}Controls{clr.Style.RESET_ALL}
 
-    {colorama.Fore.CYAN}: q{colorama.Style.RESET_ALL}     -> exit
-    {colorama.Fore.CYAN}: clr{colorama.Style.RESET_ALL}   -> clear history
+    {clr.Fore.CYAN}: q{clr.Style.RESET_ALL}     -> exit
+    {clr.Fore.CYAN}: clr{clr.Style.RESET_ALL}   -> clear history
 
-    {colorama.Fore.RED}Press enter to continue{colorama.Style.RESET_ALL}
+    {clr.Fore.RED}Press enter to continue{clr.Style.RESET_ALL}
     """)
     i = input()
     if i == 'q': exit()
