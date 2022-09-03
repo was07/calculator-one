@@ -12,7 +12,14 @@ class SavedCalculation:
         return f"{clr.Fore.LIGHTBLACK_EX}{self.inp.ljust(25)} {clr.Fore.LIGHTBLACK_EX}= {clr.Style.RESET_ALL}{self.res.rjust(9)}{clr.Style.RESET_ALL}"
     
     def as_text_special(self):
-        return f"{self.inp.ljust(25)} {clr.Fore.LIGHTBLACK_EX}= {clr.Fore.CYAN}{self.res.rjust(9)}{clr.Style.RESET_ALL}"
+        if len(self.res) < 9:
+            inp_size = 25
+        else:
+            inp_size = 25-(len(self.res)-9)
+            
+        inp = self.inp if len(self.inp) < inp_size else self.inp[:inp_size-2] + ".."
+        
+        return f"{inp.ljust(25)} {clr.Fore.LIGHTBLACK_EX}= {clr.Fore.CYAN}{self.res.rjust(9)}{clr.Style.RESET_ALL}"
 
 
 class Calculator:
@@ -66,14 +73,14 @@ class Calculator:
             self.reses = self.reses[-11:]
     
     def _replace_operators(self, op):
-        return {'+': '+', '-': '-', '*': '×', '/': '/', '^': '^'}[op]
+        return {'+': '+', '-': '-', '*': '×', '/': '/'}[op]
     
     def calculate(self, raw_inp: str) -> int:
         if not raw_inp: return 1
         parts = []
         temp = ""
         for c in raw_inp:
-            if c in ('+', '-', '*', '/', '^'):
+            if c in ('+', '-', '*', '/'):
                 if temp: parts.append(temp.strip())
                 else: return 1
                 parts.append(self._replace_operators(c))
@@ -85,7 +92,7 @@ class Calculator:
         if temp: parts.append(temp.strip())
         
         try:
-            res = eval(raw_inp)
+            res = eval()
         except:
             return 1
 
